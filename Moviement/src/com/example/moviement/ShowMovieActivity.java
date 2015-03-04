@@ -14,7 +14,7 @@ public class ShowMovieActivity extends Activity {
 		//tutaj beda aktory
 		//a to dodalem z poziomu githuba na stronie 
 		
-		// alolllo 
+		// alolllo sasasa
 	}
 
 	@Override
