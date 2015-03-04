@@ -13,6 +13,8 @@ public class MainActivity extends Activity {
         //zmiana pliku
         
         //kawala pozdro 600 chyba dziala
+        
+        //
     }
 
 
