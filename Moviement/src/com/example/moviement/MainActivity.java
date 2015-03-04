@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
         
         //kawala pozdro 600 chyba dziala
         
-        //vxcgh
+        //vxc
     }
 
 
