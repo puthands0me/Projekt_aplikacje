@@ -12,6 +12,7 @@ public class ShowMovieActivity extends Activity {
 		setContentView(R.layout.activity_show_movie);
 		
 		//tutaj beda aktory
+		//a to dodalem z poziomu githuba na stronie 
 	}
 
 	@Override
