@@ -26,6 +26,10 @@
             android:name="com.example.moviement.ShowMovieActivity"
             android:label="@string/title_activity_show_movie" >
         </activity>
+        <activity
+            android:name="com.example.moviement.WannaSeeActivity"
+            android:label="@string/title_activity_wanna_see" >
+        </activity>
     </application>
 
 </manifest>
