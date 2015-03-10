@@ -10,11 +10,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //zmiana pliku
-        
-        //kawala pozdro 600 chyba dziala
-        
-        //vxc
+
     }
 
 

@@ -10,11 +10,8 @@ public class ShowMovieActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_movie);
+		//ja eirdosadlsadsajdjcxzcjxzhjsadadaraotafsaddsacxz
 		
-		//tutaj beda aktory
-		//a to dodalem z poziomu githuba na stronie 
-		
-		// alolllo sasasa
 	}
 
 	@Override
