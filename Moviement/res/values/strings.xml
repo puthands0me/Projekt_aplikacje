@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_show_movie">ShowMovieActivity</string>
     <string name="title_activity_wanna_see">WannaSeeActivity</string>
+    <string name="title_activity_show_person">ShowPersonActivity</string>
+    <string name="title_activity_rate_movie">RateMovieActivity</string>
 
 </resources>
