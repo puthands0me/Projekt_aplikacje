@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -11,6 +13,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +39,20 @@ public class MainActivity extends Activity {
 
 	EditText eTMainActivity_1;
 
+	JSONArray allMoviesJson = new JSONArray();
+	
+	ArrayList<String> allMoviesList= new ArrayList<String>(); 
+	
+	private static final String IDIMDB = "IDIMDB";
+	private static final String RANKING = "RANKING";
+	private static final String RATING = "RATING";
+	private static final String TITLE = "TITLE";
+	private static final String URLPOSTER = "URLPOSTER";
+	private static final String YEAR = "YEAR";
+	
+	
+	
+	
 	int szer_ekranu;
 	int wys_ekranu;
 
@@ -75,52 +94,50 @@ public class MainActivity extends Activity {
 
 			}
 		});
+
 	}
 
 	private class GetJSON extends AsyncTask<String, Void, String>{
 		@Override
-		protected String doInBackground(String... params) {
+		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			DefaultHttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
-			HttpPost httpPost = new HttpPost("http://www.myapifilms.com/imdb/top");
-			httpPost.setHeader("Content/type", "application/json");
-
-			InputStream inputStream = null;
-			String result = null;
-
-			HttpResponse response;
+			HttpPost httpPost = new HttpPost("http://www.myapifilms.com/imdb/top");		
+			DefaultHttpClient httpClient = new DefaultHttpClient();
+			HttpResponse httpResponse = null;
 			try {
-				response = httpClient.execute(httpPost);
-				HttpEntity entity = response.getEntity();
-				
-				inputStream = entity.getContent();
-			    // json is UTF-8 by default
-			    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-			    StringBuilder sb = new StringBuilder();
-			    String line = null;
-			    while ((line = reader.readLine()) != null)
-			    {
-			        sb.append(line + "\n");
-			    }
-			    result = sb.toString();
+				httpResponse = httpClient.execute(httpPost);
+				String jsonString = EntityUtils.toString(httpResponse.getEntity(),HTTP.UTF_8);
+				JSONObject jsonObj = new JSONObject(jsonString);
+				allMoviesJson = jsonObj.getJSONArray("");
+
+				for (int i = 0; i < allMoviesJson.length(); i++) {
+					JSONObject jsonObj2 = allMoviesJson.getJSONObject(i);
+					// poszczególne pola
+					String idIMDB = jsonObj2.getString(IDIMDB);
+					String ranking = jsonObj2.getString(RANKING);
+					String rating = jsonObj2.getString(RATING);
+					String title = jsonObj2.getString(TITLE);
+					String urlPoster = jsonObj2.getString(URLPOSTER);
+					String year = jsonObj2.getString(YEAR);
+					
+					
+					allMoviesList.add(idIMDB);
+					allMoviesList.add(ranking);
+					allMoviesList.add(rating);
+					allMoviesList.add(title);
+					allMoviesList.add(urlPoster);
+					allMoviesList.add(year);
+				}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
-				try{if(inputStream != null)inputStream.close();}catch(Exception squish){}
-			}    
-
-			try {
-				JSONObject jObject = new JSONObject(result);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-
 			return null;
 		}
 
