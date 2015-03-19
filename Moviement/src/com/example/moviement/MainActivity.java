@@ -31,6 +31,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	LinearLayout lLMainActivity_1;
@@ -94,6 +95,8 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		
+		new GetJSON().execute();
 
 	}
 
@@ -108,7 +111,7 @@ public class MainActivity extends Activity {
 				httpResponse = httpClient.execute(httpPost);
 				String jsonString = EntityUtils.toString(httpResponse.getEntity(),HTTP.UTF_8);
 				JSONObject jsonObj = new JSONObject(jsonString);
-				allMoviesJson = jsonObj.getJSONArray("");
+				allMoviesJson = jsonObj.getJSONArray(jsonString);
 
 				for (int i = 0; i < allMoviesJson.length(); i++) {
 					JSONObject jsonObj2 = allMoviesJson.getJSONObject(i);
@@ -120,13 +123,16 @@ public class MainActivity extends Activity {
 					String urlPoster = jsonObj2.getString(URLPOSTER);
 					String year = jsonObj2.getString(YEAR);
 					
-					
+					Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
+					//dodanie do tablicy
 					allMoviesList.add(idIMDB);
 					allMoviesList.add(ranking);
 					allMoviesList.add(rating);
 					allMoviesList.add(title);
 					allMoviesList.add(urlPoster);
 					allMoviesList.add(year);
+					
+					//sasasas
 				}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
