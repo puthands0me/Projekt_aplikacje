@@ -70,6 +70,8 @@ public class MainActivity extends Activity {
 		display.getSize(size);
 		szer_ekranu = size.x;
 		wys_ekranu = size.y;
+		
+		//ttt
 
 		lLMainActivity_1 = (LinearLayout) findViewById(R.id.lLMainActivity_1);
 		lLMainActivity_2 = (LinearLayout) findViewById(R.id.lLMainActivity_2);
