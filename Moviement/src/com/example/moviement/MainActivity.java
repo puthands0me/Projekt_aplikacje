@@ -110,9 +110,10 @@ public class MainActivity extends Activity {
 			try {
 				httpResponse = httpClient.execute(httpPost);
 				String jsonString = EntityUtils.toString(httpResponse.getEntity(),HTTP.UTF_8);
-				JSONArray jsonArr = new JSONArray();
+				JSONArray jsonArr = new JSONArray(jsonString);
 
 				for (int i = 0; i < jsonArr.length(); i++) {
+					
 					JSONObject jsonObj = jsonArr.getJSONObject(i);
 					// poszczególne pola
 					String idIMDB = jsonObj.getString(IDIMDB);
@@ -121,7 +122,7 @@ public class MainActivity extends Activity {
 					String title = jsonObj.getString(TITLE);
 					String urlPoster = jsonObj.getString(URLPOSTER);
 					String year = jsonObj.getString(YEAR);
-					
+					Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
 					
 					//dodanie do tablicy
 					allMoviesList.add(i, idIMDB);
@@ -130,8 +131,6 @@ public class MainActivity extends Activity {
 					allMoviesList.add(i,title);
 					allMoviesList.add(i,urlPoster);
 					allMoviesList.add(i,year);
-					Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
-					//sasasas
 				}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
