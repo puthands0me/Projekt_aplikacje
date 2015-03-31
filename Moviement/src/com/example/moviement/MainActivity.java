@@ -110,18 +110,17 @@ public class MainActivity extends Activity {
 			try {
 				httpResponse = httpClient.execute(httpPost);
 				String jsonString = EntityUtils.toString(httpResponse.getEntity(),HTTP.UTF_8);
-				JSONObject jsonObj = new JSONObject(jsonString);
-				allMoviesJson = jsonObj.getJSONArray(jsonString);
+				JSONArray jsonArr = new JSONArray();
 
-				for (int i = 0; i < allMoviesJson.length(); i++) {
-					JSONObject jsonObj2 = allMoviesJson.getJSONObject(i);
+				for (int i = 0; i < jsonArr.length(); i++) {
+					JSONObject jsonObj = jsonArr.getJSONObject(i);
 					// poszczególne pola
-					String idIMDB = jsonObj2.getString(IDIMDB);
-					String ranking = jsonObj2.getString(RANKING);
-					String rating = jsonObj2.getString(RATING);
-					String title = jsonObj2.getString(TITLE);
-					String urlPoster = jsonObj2.getString(URLPOSTER);
-					String year = jsonObj2.getString(YEAR);
+					String idIMDB = jsonObj.getString(IDIMDB);
+					String ranking = jsonObj.getString(RANKING);
+					String rating = jsonObj.getString(RATING);
+					String title = jsonObj.getString(TITLE);
+					String urlPoster = jsonObj.getString(URLPOSTER);
+					String year = jsonObj.getString(YEAR);
 					
 					
 					//dodanie do tablicy
