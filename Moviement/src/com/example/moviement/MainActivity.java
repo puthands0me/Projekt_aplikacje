@@ -10,6 +10,7 @@ import java.util.HashMap;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -25,6 +26,7 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.Window;
@@ -42,14 +44,14 @@ public class MainActivity extends Activity {
 
 	JSONArray allMoviesJson = new JSONArray();
 	
-	ArrayList<String> allMoviesList= new ArrayList<String>(); 
+	ArrayList<Film> allMoviesList= new ArrayList<Film>(); 
 	
-	private static final String IDIMDB = "IDIMDB";
-	private static final String RANKING = "RANKING";
-	private static final String RATING = "RATING";
-	private static final String TITLE = "TITLE";
-	private static final String URLPOSTER = "URLPOSTER";
-	private static final String YEAR = "YEAR";
+	private static final String IDIMDB = "idIMDB";
+	private static final String RANKING = "ranking";
+	private static final String RATING = "rating";
+	private static final String TITLE = "title";
+	private static final String URLPOSTER = "urlPoster";
+	private static final String YEAR = "year";
 	
 	
 	
@@ -104,43 +106,51 @@ public class MainActivity extends Activity {
 		@Override
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			HttpPost httpPost = new HttpPost("http://www.myapifilms.com/imdb/top");		
+			HttpGet httpGet = new HttpGet("http://www.myapifilms.com/imdb/top");
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpResponse httpResponse = null;
+			
 			try {
-				httpResponse = httpClient.execute(httpPost);
+				httpResponse = httpClient.execute(httpGet);
 				String jsonString = EntityUtils.toString(httpResponse.getEntity(),HTTP.UTF_8);
 				JSONArray jsonArr = new JSONArray(jsonString);
-
+				
+				String filmName = new String();
 				for (int i = 0; i < jsonArr.length(); i++) {
-					
 					JSONObject jsonObj = jsonArr.getJSONObject(i);
-					// poszczególne pola
+					// rozbijamy na poszczególne pola
 					String idIMDB = jsonObj.getString(IDIMDB);
 					String ranking = jsonObj.getString(RANKING);
 					String rating = jsonObj.getString(RATING);
 					String title = jsonObj.getString(TITLE);
 					String urlPoster = jsonObj.getString(URLPOSTER);
 					String year = jsonObj.getString(YEAR);
-					Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
 					
-					//dodanie do tablicy
-					allMoviesList.add(i, idIMDB);
-					allMoviesList.add(i,ranking);
-					allMoviesList.add(i,rating);
-					allMoviesList.add(i,title);
-					allMoviesList.add(i,urlPoster);
-					allMoviesList.add(i,year);
-				}
+					filmName = "film"+i;
+					
+					Film f = new Film(filmName);
+					
+					f.idIMDB = idIMDB;
+					f.ranking = ranking;
+					f.rating = rating;
+					f.title = title;
+					f.urlPoster = urlPoster;
+					f.year = year;
+					
+					allMoviesList.add(f);
+				}				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Log.d("#WA", "a");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Log.d("#WA", "b");
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				Log.d("#WA", e.getMessage());
 			}
 			return null;
 		}
