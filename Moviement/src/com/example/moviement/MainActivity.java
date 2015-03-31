@@ -123,15 +123,15 @@ public class MainActivity extends Activity {
 					String urlPoster = jsonObj2.getString(URLPOSTER);
 					String year = jsonObj2.getString(YEAR);
 					
-					Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
-					//dodanie do tablicy
-					allMoviesList.add(idIMDB);
-					allMoviesList.add(ranking);
-					allMoviesList.add(rating);
-					allMoviesList.add(title);
-					allMoviesList.add(urlPoster);
-					allMoviesList.add(year);
 					
+					//dodanie do tablicy
+					allMoviesList.add(i, idIMDB);
+					allMoviesList.add(i,ranking);
+					allMoviesList.add(i,rating);
+					allMoviesList.add(i,title);
+					allMoviesList.add(i,urlPoster);
+					allMoviesList.add(i,year);
+					Toast.makeText(MainActivity.this, title, Toast.LENGTH_SHORT).show();
 					//sasasas
 				}
 			} catch (ClientProtocolException e) {
