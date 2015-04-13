@@ -19,25 +19,30 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	LinearLayout lLMainActivity_1;
 	LinearLayout lLMainActivity_2;
+	LinearLayout lLMainActivity_3;
 	ImageView iVMainActivity_1;
 
 	EditText eTMainActivity_1;
@@ -53,7 +58,7 @@ public class MainActivity extends Activity {
 	private static final String URLPOSTER = "urlPoster";
 	private static final String YEAR = "year";
 	
-	
+	private String filmTitle;
 	
 	
 	int szer_ekranu;
@@ -75,15 +80,16 @@ public class MainActivity extends Activity {
 
 		lLMainActivity_1 = (LinearLayout) findViewById(R.id.lLMainActivity_1);
 		lLMainActivity_2 = (LinearLayout) findViewById(R.id.lLMainActivity_2);
+		lLMainActivity_3 = (LinearLayout) findViewById(R.id.lLMainActivity_3);
 		iVMainActivity_1 = (ImageView) findViewById(R.id.iVMainActivity_1);
 		eTMainActivity_1 = (EditText) findViewById(R.id.eTMainActivity_1);
-
+		
 		eTMainActivity_1.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			@Override
@@ -96,19 +102,23 @@ public class MainActivity extends Activity {
 			@Override
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
-
+				//Log.d("#WA", eTMainActivity_1.getText()+"");
+				lLMainActivity_3.removeAllViews();
+				filmTitle = eTMainActivity_1.getText()+"";
+				new GetJSON().execute();
 			}
 		});
 		
-		new GetJSON().execute();
+		
 
 	}
 
 	private class GetJSON extends AsyncTask<String, Void, String>{
+
 		@Override
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			HttpGet httpGet = new HttpGet("http://www.myapifilms.com/imdb/top");
+			HttpGet httpGet = new HttpGet("http://www.myapifilms.com/imdb?title="+filmTitle+"&format=JSON&filter=N&exactFilter=0&limit=10&lang=en-us&exactFilter=0");
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpResponse httpResponse = null;
 			
@@ -122,7 +132,7 @@ public class MainActivity extends Activity {
 					JSONObject jsonObj = jsonArr.getJSONObject(i);
 					// rozbijamy na poszczególne pola
 					String idIMDB = jsonObj.getString(IDIMDB);
-					String ranking = jsonObj.getString(RANKING);
+					//String ranking = jsonObj.getString(RANKING);
 					String rating = jsonObj.getString(RATING);
 					String title = jsonObj.getString(TITLE);
 					String urlPoster = jsonObj.getString(URLPOSTER);
@@ -133,14 +143,17 @@ public class MainActivity extends Activity {
 					Film f = new Film(filmName);
 					
 					f.idIMDB = idIMDB;
-					f.ranking = ranking;
+					//f.ranking = ranking;
 					f.rating = rating;
 					f.title = title;
 					f.urlPoster = urlPoster;
 					f.year = year;
 					
 					allMoviesList.add(f);
-				}				
+				}			
+				
+				//Log.d("#WA", allMoviesList.get(1).title);
+				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -167,6 +180,25 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+
+			
+			for(int i=0; i<allMoviesList.size(); i++){
+				
+				LinearLayout ll = new LinearLayout(MainActivity.this);
+				ll.removeAllViews();
+				ll.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 50));
+				
+				TextView tv = new TextView(MainActivity.this);
+				
+				tv.setText(allMoviesList.get(i).title);
+				tv.setTextColor(Color.parseColor("#FFFFFF"));
+				tv.setTextSize(24);
+				
+				ll.addView(tv);
+
+				lLMainActivity_3.addView(ll);
+			}
+			
 		}
 
 
