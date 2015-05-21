@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				
+				allMoviesList.clear();
 			}
 
 			@Override
